@@ -25,7 +25,7 @@ Constraints:
 The number of nodes in the tree is in the range [1, 104].
 -231 <= Node.val <= 231 - 1
 
-//***********************************************************************************************************************************
+//************************************************************APPROACH 1 USING BOUNDRY***********************************************************************
 
 class Solution {
 public:
@@ -45,5 +45,40 @@ public:
         if(!root) return true;
         
         return isValid(root,LONG_MIN,LONG_MAX);
+    }
+};
+
+//*********************************************APPROACH 2 USING VECTOR SORTED***************************************************************
+
+class Solution {
+public:
+    
+    vector<int> ans;
+    
+    void inOrder(TreeNode *root){
+        
+        if(!root) return;
+        
+        inOrder(root->left);
+        
+        ans.push_back(root->val);
+        
+        inOrder(root->right);
+        
+    }
+    
+    bool isValidBST(TreeNode* root) {
+        
+        if(!root) return true;
+        
+        inOrder(root);
+        
+        for(int i=1;i<ans.size();i++){
+            
+            if(ans[i]<=ans[i-1]) return false;
+            
+        }
+      
+        return true;
     }
 };
