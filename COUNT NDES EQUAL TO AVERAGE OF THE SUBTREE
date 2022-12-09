@@ -30,7 +30,9 @@ Constraints:
 The number of nodes in the tree is in the range [1, 1000].
 0 <= Node.val <= 1000
 
-*************************************************************APPROACH 1*******************************************************************************
+*************************************************************APPROACH 1 O(N2)*******************************************************************************
+
+O(N2)
 
 class Solution {
 public:
@@ -81,5 +83,46 @@ public:
         helper(root);
         
         return ans;
+    }
+};
+
+******************************************************APPROACH 2 O(N)****************************************************************************
+
+class Solution {
+public:    
+            int ans=0; 
+    
+    //ASSUME FIRST HAVE SUM AND SECOND HAVE TOTAL NUMBER OF NODES
+    
+    pair<int,int> helper(TreeNode *root){
+        
+          if(!root) return {0,0};
+        
+        //IF WE ARE AT THE LEAF NODE OF THE TREE THEN SUM IS ROOT->VAL AND TOTAL NODES IS 1                 
+        //REACH OUT THE LEFT LEAF
+         pair<int,int> lp=helper(root->left);
+        
+        //REACH OUT THE RIGHT LEAF
+         pair<int,int> rp=helper(root->right);
+        
+         //SMALL CALCULATION
+         int totalSum=lp.first+rp.first+root->val;
+         int totalNodes=lp.second+rp.second+1;
+        
+        //CHECKING THE CONDITION
+         if(totalSum/totalNodes==root->val) ans++;
+        
+        //RETURN FINAL UPDATED PAIR
+          return {totalSum,totalNodes};
+        
+    }
+    
+    
+    
+    int averageOfSubtree(TreeNode* root) {
+        
+        helper(root);
+        
+         return ans;
     }
 };
